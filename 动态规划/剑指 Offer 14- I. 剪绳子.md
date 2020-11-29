@@ -25,7 +25,8 @@ class Solution(object):
         """
         # 最后一段长：i， 范围可能：1 <= i <n
         # 设状态：f(x) =  长度为x的绳子，拆分后可能的最大乘积是多少
-        # 转移方程：f(x) = max{f(x-i) * i, (x−i) * i}  遍历循环所有i，取最小值
+        # 转移方程：f(x) = max{f(x-i) * i, (x−i) * i}  遍历循环所有i，取最小值；
+        # 注意点：前提是要：减断为m段（m>1），才能用此转移方程.
         # 边界条件： 0 不是正整数，1 是最小的正整数，0 和 1 都不能拆分，因此 dp[0]=dp[1]=0。
         # if n==0 or n==1:
         #     return 0
@@ -40,7 +41,7 @@ class Solution(object):
             f[x] = x-1
             # i的所有可能 1 <= i <n
             for i in range(1, n):
-                f[x] = max(f[x], f[x-i] * i) # 分乘两段之后，继续剪断
+                f[x] = max(f[x], f[x-i] * i) # 分乘两段之后，继续剪断；只有继续减断，才能用此方程
                 f[x] = max(f[x], (x-i) * i)  # 仅分成两段：x-i 和 i， 则max{(x-i) * i}
         return f[n]
 
